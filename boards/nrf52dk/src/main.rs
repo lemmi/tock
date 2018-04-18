@@ -76,17 +76,17 @@ use capsules::virtual_alarm::VirtualMuxAlarm;
 use nrf5x::rtc::Rtc;
 
 // The nRF52 DK LEDs (see back of board)
-const LED1_PIN: usize = 17;
-const LED2_PIN: usize = 18;
-const LED3_PIN: usize = 19;
-const LED4_PIN: usize = 20;
+const LED1_PIN: usize = 13;
+const LED2_PIN: usize = 14;
+const LED3_PIN: usize = 15;
+const LED4_PIN: usize = 16;
 
 // The nRF52 DK buttons (see back of board)
-const BUTTON1_PIN: usize = 13;
-const BUTTON2_PIN: usize = 14;
-const BUTTON3_PIN: usize = 15;
-const BUTTON4_PIN: usize = 16;
-const BUTTON_RST_PIN: usize = 21;
+const BUTTON1_PIN: usize = 11;
+const BUTTON2_PIN: usize = 12;
+const BUTTON3_PIN: usize = 24;
+const BUTTON4_PIN: usize = 25;
+const BUTTON_RST_PIN: usize = 18;
 
 /// UART Writer
 #[macro_use]
@@ -103,13 +103,13 @@ mod tests;
 const FAULT_RESPONSE: kernel::process::FaultResponse = kernel::process::FaultResponse::Panic;
 
 // Number of concurrent processes this platform supports.
-const NUM_PROCS: usize = 4;
+const NUM_PROCS: usize = 8;
 
 #[link_section = ".app_memory"]
-static mut APP_MEMORY: [u8; 32768] = [0; 32768];
+static mut APP_MEMORY: [u8; 245760] = [0; 245760];
 
 static mut PROCESSES: [Option<&'static mut kernel::Process<'static>>; NUM_PROCS] =
-    [None, None, None, None];
+    [None, None, None, None, None, None, None, None];
 
 /// Supported drivers by the platform
 pub struct Platform {
