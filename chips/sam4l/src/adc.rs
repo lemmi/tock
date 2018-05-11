@@ -20,11 +20,11 @@ use core::{cmp, mem, slice};
 use dma;
 use kernel::common::cells::TakeCell;
 use kernel::common::math;
-use kernel::common::regs::{ReadOnly, ReadWrite, WriteOnly};
 use kernel::hil;
 use kernel::ReturnCode;
 use pm::{self, Clock, PBAClock};
 use scif;
+use tock_regs::regs::{ReadOnly, ReadWrite, WriteOnly};
 
 /// Representation of an ADC channel on the SAM4L.
 pub struct AdcChannel {

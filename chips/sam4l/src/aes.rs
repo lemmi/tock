@@ -10,12 +10,12 @@
 
 use core::cell::Cell;
 use kernel::common::cells::TakeCell;
-use kernel::common::regs::{ReadOnly, ReadWrite, WriteOnly};
 use kernel::hil;
 use kernel::hil::symmetric_encryption::{AES128_BLOCK_SIZE, AES128_KEY_SIZE};
 use kernel::returncode::ReturnCode;
 use pm;
 use scif;
+use tock_regs::regs::{ReadOnly, ReadWrite, WriteOnly};
 
 #[allow(dead_code)]
 #[derive(Copy, Clone)]

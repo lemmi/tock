@@ -32,9 +32,9 @@
 use core::cell::Cell;
 use core::{cmp, ptr};
 use kernel::common::cells::{TakeCell, VolatileCell};
-use kernel::common::regs::{ReadWrite, WriteOnly};
 use kernel::{hil, ReturnCode, StaticRef};
 use nrf5x::pinmux::Pinmux;
+use tock_regs::regs::{ReadWrite, WriteOnly};
 
 /// SPI master instance 0.
 pub static mut SPIM0: SPIM = SPIM::new(0);

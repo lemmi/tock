@@ -23,9 +23,9 @@
 //! * Date: August 18, 2016
 
 use core::cell::Cell;
-use kernel::common::regs::{self, ReadWrite, WriteOnly};
 use kernel::hil;
 use kernel::StaticRef;
+use tock_regs::regs::{Field, FieldValue, ReadWrite, WriteOnly};
 
 const INSTANCES: [StaticRef<TimerRegisters>; 3] = unsafe {
     [
@@ -267,8 +267,8 @@ pub struct TimerAlarm {
 // CC1 is used for compare/interrupts
 const ALARM_CAPTURE: usize = 0;
 const ALARM_COMPARE: usize = 1;
-const ALARM_INTERRUPT_BIT: regs::Field<u32, Inte::Register> = Inte::COMPARE1;
-const ALARM_INTERRUPT_BIT_SET: regs::FieldValue<u32, Inte::Register> = Inte::COMPARE1::SET;
+const ALARM_INTERRUPT_BIT: Field<u32, Inte::Register> = Inte::COMPARE1;
+const ALARM_INTERRUPT_BIT_SET: FieldValue<u32, Inte::Register> = Inte::COMPARE1::SET;
 
 impl TimerAlarm {
     const fn new(instance: usize) -> TimerAlarm {

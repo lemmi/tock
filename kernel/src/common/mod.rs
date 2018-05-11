@@ -12,9 +12,6 @@ pub mod take_cell;
 pub mod utils;
 pub mod volatile_cell;
 
-#[macro_use]
-pub mod regs;
-
 mod num_cell;
 mod optional_cell;
 

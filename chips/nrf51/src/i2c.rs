@@ -5,8 +5,8 @@
 use core::cell::Cell;
 use core::cmp;
 use kernel::common::cells::TakeCell;
-use kernel::common::regs::{FieldValue, ReadOnly, ReadWrite, WriteOnly};
 use kernel::hil::i2c;
+use tock_regs::regs::{FieldValue, ReadOnly, ReadWrite, WriteOnly};
 use {nrf5x, nrf5x::gpio, nrf5x::pinmux::Pinmux};
 
 /// An I2C master device.

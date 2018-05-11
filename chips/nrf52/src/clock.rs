@@ -17,7 +17,7 @@
 //!
 
 use core::cell::Cell;
-use kernel::common::regs::{ReadOnly, ReadWrite, WriteOnly};
+use tock_regs::regs::{ReadOnly, ReadWrite, WriteOnly};
 
 #[repr(C)]
 struct ClockRegisters {

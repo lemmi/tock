@@ -5,11 +5,11 @@
 use core::cell::Cell;
 use core::ops::{Index, IndexMut};
 use kernel::common::deferred_call::DeferredCall;
-use kernel::common::regs::{ReadOnly, ReadWrite};
 use kernel::common::take_cell::TakeCell;
 use kernel::common::volatile_cell::VolatileCell;
 use kernel::hil;
 use kernel::ReturnCode;
+use tock_regs::regs::{ReadOnly, ReadWrite};
 
 use deferred_call_tasks::DeferredCallTask;
 

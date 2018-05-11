@@ -5,10 +5,12 @@
 #![feature(asm, const_fn, naked_functions)]
 #![no_std]
 
-#[allow(unused_imports)]
-#[macro_use(debug, debug_gpio, register_bitfields, register_bitmasks)]
-extern crate kernel;
 extern crate cortexm;
+#[allow(unused_imports)]
+#[macro_use(debug, debug_gpio)]
+extern crate kernel;
+#[macro_use(register_bitfields, register_bitmasks)]
+extern crate tock_regs;
 
 pub mod mpu;
 pub mod nvic;

@@ -1,10 +1,10 @@
 //! RTC driver, nRF5X-family
 
 use kernel::common::cells::OptionalCell;
-use kernel::common::regs::{ReadOnly, ReadWrite, WriteOnly};
 use kernel::hil::time::{self, Alarm, Freq32KHz, Time};
 use kernel::hil::Controller;
 use kernel::StaticRef;
+use tock_regs::regs::{ReadOnly, ReadWrite, WriteOnly};
 
 const RTC1_BASE: *const RtcRegisters = 0x40011000 as *const RtcRegisters;
 

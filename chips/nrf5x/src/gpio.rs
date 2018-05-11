@@ -6,8 +6,8 @@
 
 use core::{cell::Cell,
            ops::{Index, IndexMut}};
-use kernel::{common::regs::{FieldValue, ReadWrite},
-             hil};
+use kernel::hil;
+use tock_regs::regs::{FieldValue, ReadWrite};
 
 #[cfg(feature = "nrf51")]
 const NUM_GPIOTE: usize = 4;

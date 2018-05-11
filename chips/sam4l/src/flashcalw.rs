@@ -26,10 +26,10 @@ use core::ops::{Index, IndexMut};
 use deferred_call_tasks::Task;
 use kernel::common::cells::TakeCell;
 use kernel::common::deferred_call::DeferredCall;
-use kernel::common::regs::{ReadOnly, ReadWrite, WriteOnly};
 use kernel::hil;
 use kernel::ReturnCode;
 use pm;
+use tock_regs::regs::{ReadOnly, ReadWrite, WriteOnly};
 
 /// Struct of the FLASHCALW registers. Section 14.10 of the datasheet.
 #[repr(C)]

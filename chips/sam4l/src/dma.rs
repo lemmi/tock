@@ -4,8 +4,8 @@ use core::cell::Cell;
 use core::{cmp, intrinsics};
 use kernel::common::cells::TakeCell;
 use kernel::common::cells::VolatileCell;
-use kernel::common::regs::{ReadOnly, ReadWrite, WriteOnly};
 use pm;
+use tock_regs::regs::{ReadOnly, ReadWrite, WriteOnly};
 
 /// Memory registers for a DMA channel. Section 16.6.1 of the datasheet.
 #[repr(C)]

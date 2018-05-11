@@ -10,10 +10,10 @@
 use core::cell::Cell;
 use kernel::common::cells::TakeCell;
 use kernel::common::cells::VolatileCell;
-use kernel::common::regs::{ReadWrite, WriteOnly};
 use kernel::hil;
 use kernel::StaticRef;
 use nrf5x::pinmux::Pinmux;
+use tock_regs::regs::{ReadWrite, WriteOnly};
 
 /// Uninitialized `TWIM` instances.
 const INSTANCES: [StaticRef<TwimRegisters>; 2] = unsafe {
