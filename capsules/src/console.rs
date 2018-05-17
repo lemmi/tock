@@ -315,6 +315,10 @@ impl<'a, U: UART> Driver for Console<'a, U> {
                     }
                 })
             },
+            3 => {
+                self.uart.abort_receive();
+                ReturnCode::SUCCESS
+            }
             _ => ReturnCode::ENOSUPPORT
         }
     }
