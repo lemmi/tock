@@ -443,6 +443,17 @@ pub unsafe fn reset_handler() {
         capsules::dac::Dac::new(&mut sam4l::dac::DAC)
     );
 
+    let accelerate_virtual_alarm = static_init!(
+        VirtualMuxAlarm<'static, sam4l::ast::Ast>,
+        VirtualMuxAlarm::new(mux_alarm)
+    );
+    let accelerate = static_init!(
+        capsules::hello::Accelerate<'static, VirtualMuxAlarm<'static, sam4l::ast::Ast<'static>>>,
+        capsules::hello::Accelerate::new(accelerate_virtual_alarm)
+    );
+    accelerate_virtual_alarm.set_client(accelerate);
+    accelerate.start();
+
     let hail = Hail {
         console: console,
         gpio: gpio,

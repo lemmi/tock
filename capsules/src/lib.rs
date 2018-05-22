@@ -21,6 +21,7 @@ pub mod fm25cl;
 pub mod fxos8700cq;
 pub mod gpio;
 pub mod gpio_async;
+pub mod hello;
 pub mod i2c_master_slave_driver;
 pub mod isl29035;
 pub mod led;
