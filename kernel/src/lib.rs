@@ -15,6 +15,7 @@
 pub mod common;
 
 pub mod callback;
+pub mod capabilities;
 pub mod grant;
 #[macro_use]
 pub mod debug;
