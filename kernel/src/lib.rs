@@ -11,6 +11,7 @@
 #![feature(nonnull_cast)]
 #![no_std]
 
+pub mod capabilities;
 #[macro_use]
 pub mod common;
 #[macro_use]
