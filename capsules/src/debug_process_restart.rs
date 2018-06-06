@@ -15,25 +15,34 @@
 //! }
 //! ```
 
-use kernel::debug;
+use kernel::capabilities::ProcessManagementCapability;
 use kernel::hil;
 use kernel::hil::gpio::{Client, InterruptMode};
+use kernel::process;
 
-pub struct DebugProcessRestart<'a, G: hil::gpio::Pin + 'a> {
+pub struct DebugProcessRestart<'a, G: hil::gpio::Pin + 'a, C: ProcessManagementCapability> {
     _pin: &'a G,
+    capability: C,
 }
 
-impl<'a, G: hil::gpio::Pin + hil::gpio::PinCtl> DebugProcessRestart<'a, G> {
-    pub fn new(pin: &'a G) -> DebugProcessRestart<'a, G> {
+impl<'a, G: hil::gpio::Pin + hil::gpio::PinCtl, C: ProcessManagementCapability>
+    DebugProcessRestart<'a, G, C>
+{
+    pub fn new(pin: &'a G, cap: C) -> DebugProcessRestart<'a, G, C> {
         pin.make_input();
         pin.enable_interrupt(0, InterruptMode::RisingEdge);
 
-        DebugProcessRestart { _pin: pin }
+        DebugProcessRestart {
+            _pin: pin,
+            capability: cap,
+        }
     }
 }
 
-impl<'a, G: hil::gpio::Pin + hil::gpio::PinCtl> Client for DebugProcessRestart<'a, G> {
+impl<'a, G: hil::gpio::Pin + hil::gpio::PinCtl, C: ProcessManagementCapability> Client
+    for DebugProcessRestart<'a, G, C>
+{
     fn fired(&self, _pin_num: usize) {
-        debug::hardfault_all_apps();
+        process::hardfault_all_apps(&self.capability);
     }
 }

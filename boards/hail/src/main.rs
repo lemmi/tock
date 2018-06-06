@@ -17,6 +17,7 @@ extern crate sam4l;
 use capsules::virtual_alarm::{MuxAlarm, VirtualMuxAlarm};
 use capsules::virtual_i2c::{I2CDevice, MuxI2C};
 use capsules::virtual_spi::{MuxSpiMaster, VirtualSpiMasterDevice};
+use kernel::capabilities;
 use kernel::hil;
 use kernel::hil::spi::SpiMaster;
 use kernel::hil::Controller;
@@ -444,9 +445,14 @@ pub unsafe fn reset_handler() {
     // DEBUG Restart All Apps
     //
     // Uncomment to enable a button press to restart all apps.
+    //
+    // Create a dummy object that provides the `ProcessManagementCapability` to
+    // the `debug_process_restart` capsule.
+    // struct ProcessMgmtCap;
+    // unsafe impl capabilities::ProcessManagementCapability for ProcessMgmtCap {}
     // let debug_process_restart = static_init!(
-    //     capsules::debug_process_restart::DebugProcessRestart<'static, sam4l::gpio::GPIOPin>,
-    //     capsules::debug_process_restart::DebugProcessRestart::new(&sam4l::gpio::PA[16])
+    //     capsules::debug_process_restart::DebugProcessRestart<'static, sam4l::gpio::GPIOPin, ProcessMgmtCap>,
+    //     capsules::debug_process_restart::DebugProcessRestart::new(&sam4l::gpio::PA[16], ProcessMgmtCap)
     // );
     // sam4l::gpio::PA[16].set_client(debug_process_restart);
 

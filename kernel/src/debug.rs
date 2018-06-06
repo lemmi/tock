@@ -550,21 +550,3 @@ pub unsafe fn flush<W: Write>(writer: &mut W) {
         }
     }
 }
-
-///////////////////////////////////////////////////////////////////
-// debugging mechanism to cause apps to restart
-
-/// Force all apps into a "fault" state.
-///
-/// This is useful for testing that apps and capsules recover from crashed
-/// apps correctly.
-///
-/// This is in debug so that it is clear this shouldn't get used in most
-/// capsules. It should only be used explicitly for debugging. However, a board
-/// may want to trigger this function only in certain cases (a button being
-/// pressed, a packet being received, etc.) so we need to expose it to capsules.
-pub fn hardfault_all_apps() {
-    unsafe {
-        process::hardfault_all_apps();
-    }
-}
