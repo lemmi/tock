@@ -1,6 +1,6 @@
 //! Data structure to store a list of userspace applications.
 
-use callback::AppId;
+use callback::{self, AppId};
 use core::marker::PhantomData;
 use core::mem::size_of;
 use core::ops::{Deref, DerefMut};
@@ -62,7 +62,7 @@ impl<T: ?Sized> Owned<T> {
     }
 
     pub fn appid(&self) -> AppId {
-        AppId::new(self.app_id)
+        callback::create_appid(self.app_id)
     }
 }
 
@@ -135,7 +135,7 @@ impl<'a, T: 'a + ?Sized> Borrowed<'a, T> {
     }
 
     pub fn appid(&self) -> AppId {
-        AppId::new(self.app_id)
+        callback::create_appid(self.app_id)
     }
 }
 
@@ -268,7 +268,7 @@ impl<'a, T: Default> Iterator for Iter<'a, T> {
         while self.index < self.len {
             let idx = self.index;
             self.index += 1;
-            let res = self.grant.grant(AppId::new(idx));
+            let res = self.grant.grant(callback::create_appid(idx));
             if res.is_some() {
                 return res;
             }

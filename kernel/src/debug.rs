@@ -33,14 +33,14 @@
 //! TOCK_DEBUG(0): /tock/capsules/src/sensys.rs:24: got here
 //! ```
 
-use callback::{AppId, Callback};
+use callback::{self, Callback};
 use core::cmp::min;
 use core::fmt::{write, Arguments, Result, Write};
 use core::ptr::{read_volatile, write_volatile};
 use core::{slice, str};
 use driver::Driver;
 use hil;
-use mem::AppSlice;
+use mem;
 use process;
 use returncode::ReturnCode;
 
@@ -275,13 +275,13 @@ impl DebugWriter {
                         panic!("Consistency error: publish empty buffer?")
                     };
 
-                    let slice = AppSlice::new(
+                    let slice = mem::create_appslice(
                         self.output_buffer.as_mut_ptr().offset(start as isize),
                         end - start,
-                        AppId::kernel_new(APPID_IDX),
+                        callback::create_appid(APPID_IDX),
                     );
                     let slice_len = slice.len();
-                    if driver.allow(AppId::kernel_new(APPID_IDX), 1, Some(slice))
+                    if driver.allow(callback::create_appid(APPID_IDX), 1, Some(slice))
                         != ReturnCode::SUCCESS
                     {
                         panic!("Debug print allow fail");
@@ -290,12 +290,12 @@ impl DebugWriter {
                     if driver.subscribe(
                         1,
                         Some(KERNEL_CONSOLE_CALLBACK),
-                        AppId::kernel_new(APPID_IDX),
+                        callback::create_appid(APPID_IDX),
                     ) != ReturnCode::SUCCESS
                     {
                         panic!("Debug print subscribe fail");
                     }
-                    if driver.command(1, slice_len, 0, AppId::kernel_new(APPID_IDX))
+                    if driver.command(1, slice_len, 0, callback::create_appid(APPID_IDX))
                         != ReturnCode::SUCCESS
                     {
                         panic!("Debug print command fail");
@@ -349,7 +349,7 @@ impl DebugWriter {
 unsafe impl Sync for Callback {}
 
 static KERNEL_CONSOLE_CALLBACK: Callback =
-    Callback::kernel_new(AppId::kernel_new(APPID_IDX), DebugWriter::callback);
+    callback::create_kernel_callback(callback::create_appid(APPID_IDX), DebugWriter::callback);
 
 impl Write for DebugWriter {
     fn write_str(&mut self, s: &str) -> Result {

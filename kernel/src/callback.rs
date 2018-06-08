@@ -13,12 +13,16 @@ pub struct AppId {
 /// These IDs are used to identify which kernel container is being accessed.
 const KERNEL_APPID_BOUNDARY: usize = 100;
 
-impl AppId {
-    pub fn new(idx: usize) -> AppId {
-        AppId { idx: idx }
-    }
+/// This function creates a new `AppId` object. This function is separate from
+/// the `AppId` implementation because it is only accessible internally to the
+/// kernel crate. The `AppId` object must be globally public, but creating an
+/// `AppId` is unsafe and must be restricted to only the kernel crate.
+pub const fn create_appid(idx: usize) -> AppId {
+    AppId::new(idx)
+}
 
-    pub const fn kernel_new(idx: usize) -> AppId {
+impl AppId {
+    const fn new(idx: usize) -> AppId {
         AppId { idx: idx }
     }
 
@@ -57,8 +61,19 @@ pub struct Callback {
     fn_ptr: RustOrRawFnPtr,
 }
 
+pub fn create_callback(appid: AppId, appdata: usize, fn_ptr: NonNull<*mut ()>) -> Callback {
+    Callback::new(appid, appdata, fn_ptr)
+}
+
+pub const fn create_kernel_callback(
+    appid: AppId,
+    fn_ptr: fn(usize, usize, usize, usize),
+) -> Callback {
+    Callback::kernel_new(appid, fn_ptr)
+}
+
 impl Callback {
-    pub fn new(appid: AppId, appdata: usize, fn_ptr: NonNull<*mut ()>) -> Callback {
+    fn new(appid: AppId, appdata: usize, fn_ptr: NonNull<*mut ()>) -> Callback {
         Callback {
             app_id: appid,
             appdata: appdata,
@@ -66,7 +81,7 @@ impl Callback {
         }
     }
 
-    pub const fn kernel_new(appid: AppId, fn_ptr: fn(usize, usize, usize, usize)) -> Callback {
+    const fn kernel_new(appid: AppId, fn_ptr: fn(usize, usize, usize, usize)) -> Callback {
         Callback {
             app_id: appid,
             appdata: 0,

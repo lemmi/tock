@@ -3,8 +3,8 @@
 use core::ptr;
 use core::ptr::NonNull;
 
-use callback::{AppId, Callback};
-use mem::AppSlice;
+use callback::{self, AppId};
+use mem;
 use memop;
 use platform::mpu::MPU;
 use platform::systick::SysTick;
@@ -109,7 +109,8 @@ pub unsafe fn do_process<P: Platform, C: Chip>(
                 let appdata = process.r3();
 
                 let callback_ptr = NonNull::new(callback_ptr_raw);
-                let callback = callback_ptr.map(|ptr| Callback::new(appid, appdata, ptr.cast()));
+                let callback =
+                    callback_ptr.map(|ptr| callback::create_callback(appid, appdata, ptr.cast()));
 
                 let res = platform.with_driver(driver_num, |driver| match driver {
                     Some(d) => d.subscribe(subdriver_num, callback, appid),
@@ -132,7 +133,8 @@ pub unsafe fn do_process<P: Platform, C: Chip>(
                             if start_addr != ptr::null_mut() {
                                 let size = process.r3();
                                 if process.in_exposed_bounds(start_addr, size) {
-                                    let slice = AppSlice::new(start_addr as *mut u8, size, appid);
+                                    let slice =
+                                        mem::create_appslice(start_addr as *mut u8, size, appid);
                                     d.allow(appid, process.r1(), Some(slice))
                                 } else {
                                     ReturnCode::EINVAL /* memory not allocated to process */

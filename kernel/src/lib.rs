@@ -64,7 +64,7 @@ pub fn main<P: Platform, C: Chip>(
 
             for (i, p) in processes.iter_mut().enumerate() {
                 p.as_mut().map(|process| {
-                    sched::do_process(platform, chip, process, callback::AppId::new(i), ipc);
+                    sched::do_process(platform, chip, process, callback::create_appid(i), ipc);
                 });
                 if chip.has_pending_interrupts() {
                     break;
