@@ -53,6 +53,7 @@ pub fn main<P: Platform, C: Chip>(
     chip: &mut C,
     processes: &'static mut [Option<&mut process::Process<'static>>],
     ipc: Option<&ipc::IPC>,
+    _capability: &capabilities::MainLoopCapablity,
 ) {
     let processes = unsafe {
         process::PROCS = processes;
